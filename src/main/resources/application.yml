@@ -1,11 +1,10 @@
 spring:
-  profiles:
-    active: prod
+#  profiles:
+#    active: prod
   datasource:
     url: jdbc:postgresql://localhost:5432/boilerplates
     username: postgres
     password: postgres
-
 
 feign:
   client:
