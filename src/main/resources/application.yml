@@ -1,3 +1,12 @@
+spring:
+  profiles:
+    active: prod
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boilerplates
+    username: postgres
+    password: postgres
+
+
 feign:
   client:
     config:
@@ -14,13 +23,6 @@ logging:
 openfeign:
   url:
     jplaceholder: https://jsonplaceholder.typicode.com/
-
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/alto_biller_adapter
-    username: postgres
-    password: postgres
-
 
 server:
   port: 8081
