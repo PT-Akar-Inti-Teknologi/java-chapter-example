@@ -3,6 +3,7 @@ package org.ait.project.aitboilerplate.abstraction.service;
 import org.springframework.stereotype.Service;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Bentuk object yang hidup di {@link Service} layer, 
@@ -14,6 +15,7 @@ import lombok.Getter;
  *
  */
 @Getter
+@Setter
 public abstract class BusinessObject<IDTYPE> {
 	
 	private IDTYPE id;
