@@ -5,5 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public abstract interface ModuleExceptionHandler<E extends ModuleException> {
 
-	public ResponseEntity<Object> handleException(E exception);
+	public ResponseEntity<?> handleException(E exception);
 }
