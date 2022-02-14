@@ -7,14 +7,15 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ResponseEnum {
-    SUCCESS("00","Success",HttpStatus.OK),
+    SUCCESS("00","success",HttpStatus.OK),
 
-    DATA_NOT_FOUND("77","Some Param not valid",HttpStatus.NOT_FOUND),
-    PARAM_INVALID("88","Some Param not valid",HttpStatus.BAD_REQUEST),
-    INTERNAL_SERVER_ERROR("99","Success",HttpStatus.INTERNAL_SERVER_ERROR),
+    CUSTOMER_NOT_FOUND("66","response.customer-not-found",HttpStatus.NOT_FOUND),
+    DATA_NOT_FOUND("77","response.data-not-found",HttpStatus.NOT_FOUND),
+    PARAM_INVALID("88","response.param-invalid",HttpStatus.BAD_REQUEST),
+    INTERNAL_SERVER_ERROR("99","respone.internal-server-error",HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
     private final String responseCode;
-    private final String responseTxt;
+    private final String messageTxt;
     private final HttpStatus httpStatus;
 }

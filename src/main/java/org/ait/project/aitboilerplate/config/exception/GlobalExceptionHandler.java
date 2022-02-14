@@ -1,5 +1,6 @@
-package org.ait.project.aitboilerplate.config;
+package org.ait.project.aitboilerplate.config.exception;
 
+import lombok.RequiredArgsConstructor;
 import org.ait.project.aitboilerplate.shared.constant.enums.ResponseEnum;
 import org.ait.project.aitboilerplate.shared.utils.ResponseHelpers;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -15,7 +17,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private final ResponseHelpers responseHelpers;
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -25,6 +31,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
-        return ResponseHelpers.createResponseError(ResponseEnum.PARAM_INVALID, errors);
+        return responseHelpers.createResponseError(ResponseEnum.PARAM_INVALID, null, errors);
     }
+
+    @ExceptionHandler(ModuleException.class)
+    protected ResponseEntity<Object> handleModuleException(ModuleException moduleException) {
+        return responseHelpers.createResponseError(moduleException.getResponseEnum(), moduleException.getArgsMessage(), moduleException.getData());
+    }
+
 }

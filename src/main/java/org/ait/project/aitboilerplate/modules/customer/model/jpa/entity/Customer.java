@@ -25,6 +25,8 @@ public class Customer {
 
     private String name;
 
+    private String company;
+
     private String email;
 
     private String address;
