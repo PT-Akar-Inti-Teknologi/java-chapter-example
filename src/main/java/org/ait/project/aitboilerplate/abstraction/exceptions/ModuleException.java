@@ -42,7 +42,7 @@ public abstract class ModuleException extends RuntimeException {
 	
 	/**
 	 * digunakan di dalam constructor untuk mem-populate message parameters,
-	 * agar dapat nantinya digunakan untuk me-resolve message di {@link ModuleExceptionHandler}.
+	 * agar dapat nantinya digunakan untuk me-resolve message di {@link ModuleExceptionControllerAdvice}.
 	 * 
 	 * @param messageParameter tambahan parameter untuk message yang berparameter
 	 */
