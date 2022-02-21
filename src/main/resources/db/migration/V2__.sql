@@ -1,1 +1,1 @@
-ALTER TABLE customer ADD company VARCHAR(255);
+ALTER TABLE customer_detil ADD company VARCHAR(255);

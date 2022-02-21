@@ -1,4 +1,4 @@
-package org.ait.project.aitboilerplate.modules.customer.service.internal;
+package org.ait.project.aitboilerplate.modules.item.service.internal;
 
 import lombok.RequiredArgsConstructor;
 import org.ait.project.aitboilerplate.modules.customer.dto.request.CustomerRequest;
@@ -7,6 +7,12 @@ import org.ait.project.aitboilerplate.modules.customer.dto.transform.CustomerTra
 import org.ait.project.aitboilerplate.modules.customer.exception.CustomerException;
 import org.ait.project.aitboilerplate.modules.customer.model.jpa.entity.CustomerDetil;
 import org.ait.project.aitboilerplate.modules.customer.model.jpa.repository.CustomerDetilRepository;
+import org.ait.project.aitboilerplate.modules.item.dto.request.ItemRequest;
+import org.ait.project.aitboilerplate.modules.item.dto.response.ItemResponse;
+import org.ait.project.aitboilerplate.modules.item.dto.transform.ItemTransform;
+import org.ait.project.aitboilerplate.modules.item.model.entity.Item;
+import org.ait.project.aitboilerplate.modules.item.model.repository.ItemRepository;
+import org.ait.project.aitboilerplate.modules.order.dto.response.OrdersResponse;
 import org.ait.project.aitboilerplate.shared.constant.enums.ResponseEnum;
 import org.ait.project.aitboilerplate.shared.dto.ResponseTemplate;
 import org.ait.project.aitboilerplate.shared.utils.ResponseHelpers;
@@ -19,35 +25,35 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerService {
+public class ItemService {
 
-    private final CustomerDetilRepository customerDetilRepository;
+    private final ItemRepository itemRepository;
     private final ResponseHelpers responseHelpers;
-    private final CustomerTransform customerTransform;
+    private final ItemTransform itemTransform;
 
     @Transactional(readOnly = true)
-    public ResponseEntity<ResponseTemplate<List<CustomerResponse>>> getCustomerList() {
+    public ResponseEntity<ResponseTemplate<List<ItemResponse>>> getItemList() {
         return responseHelpers.createResponse(ResponseEnum.SUCCESS,
-                customerTransform.toListResponse(customerDetilRepository.findAll()));
+                itemTransform.toListResponse(itemRepository.findAll()));
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<ResponseTemplate<CustomerResponse>> getCustomerWithId(Long id) {
-        Optional<CustomerDetil> customerOptional = customerDetilRepository.findById(id);
+    public ResponseEntity<ResponseTemplate<ItemResponse>> getItemWithId(Long id) {
+        Optional<Item> customerOptional = itemRepository.findById(id);
         if (!customerOptional.isPresent()) {
             throw new CustomerException(ResponseEnum.CUSTOMER_NOT_FOUND, id);
         }
         return responseHelpers.createResponse(ResponseEnum.SUCCESS,
-                customerTransform.toResponse(customerOptional.get()));
+                itemTransform.toResponse(customerOptional.get()));
     }
 
     @Transactional
-    public ResponseEntity<ResponseTemplate<CustomerResponse>> addCustomer(CustomerRequest customerRequest) {
-        if(customerDetilRepository.findByCustomerUsernameOrEmail(customerRequest.getUsername(), customerRequest.getEmail()).isPresent()){
-            throw new CustomerException(ResponseEnum.PARAM_INVALID, customerRequest.getEmail());
+    public ResponseEntity<ResponseTemplate<ItemResponse>> addItem(ItemRequest itemRequest) {
+        if(itemRepository.findByCode(itemRequest.getCode()).isPresent()){
+            throw new CustomerException(ResponseEnum.PARAM_INVALID, itemRequest.getCode());
         }
         return responseHelpers.createResponse(ResponseEnum.SUCCESS,
-                    customerTransform.toResponse(customerDetilRepository
-                            .saveAndFlush(customerTransform.toEntity(customerRequest))));
+                itemTransform.toResponse(itemRepository
+                        .saveAndFlush(itemTransform.toEntity(itemRequest))));
     }
 }

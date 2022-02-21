@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @FeignClient(value = "jplaceholder",url = "${openfeign.url.jplaceholder}")

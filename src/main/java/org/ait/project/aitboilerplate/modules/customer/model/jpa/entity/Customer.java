@@ -3,14 +3,9 @@ package org.ait.project.aitboilerplate.modules.customer.model.jpa.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.ait.project.aitboilerplate.modules.order.model.entity.Order;
+import org.ait.project.aitboilerplate.modules.order.model.entity.Orders;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -23,16 +18,11 @@ public class Customer {
     @GeneratedValue
     private Long id;
 
-    private String name;
+    private String username;
 
-    private String company;
+    private String password;
 
-    private String email;
+    @OneToOne(mappedBy = "customer")
+    private CustomerDetil detil;
 
-    private String address;
-
-    private BigDecimal balance;
-
-    @OneToMany(mappedBy = "customer")
-    private List<Order> orderSets = new ArrayList<>();
 }
