@@ -2,7 +2,7 @@ spring:
 #  profiles:
 #    active: prod
   datasource:
-    url: jdbc:postgresql://localhost:5432/boilerplates
+    url: jdbc:postgresql://localhost:5432/boilerplates2
     username: postgres
     password: postgres
 

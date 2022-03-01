@@ -3,6 +3,7 @@ package org.ait.project.aitboilerplate.modules.customer.service.internal;
 import lombok.RequiredArgsConstructor;
 import org.ait.project.aitboilerplate.modules.customer.dto.request.CustomerRequest;
 import org.ait.project.aitboilerplate.modules.customer.dto.response.CustomerResponse;
+import org.ait.project.aitboilerplate.modules.customer.exception.CustomerNotFoundException;
 import org.ait.project.aitboilerplate.modules.customer.model.jpa.entity.Customer;
 import org.ait.project.aitboilerplate.modules.customer.model.jpa.repository.CustomerRepository;
 import org.ait.project.aitboilerplate.shared.constant.enums.ResponseEnum;
@@ -22,6 +23,8 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    private final ResponseHelpers responseHelpers;
+
     public ResponseEntity<ResponseTemplate<List<CustomerResponse>>> getCustomerList() {
         List<Customer> customerList = customerRepository.findAll();
         List<CustomerResponse> customerResponseList = new ArrayList<>();
@@ -37,25 +40,29 @@ public class CustomerService {
             customerResponseList.add(customerResponse);
         });
 
-        return ResponseHelpers.createResponse(ResponseEnum.SUCCESS, customerResponseList);
+        return responseHelpers.createResponse(ResponseEnum.SUCCESS, customerResponseList);
     }
 
     public ResponseEntity<ResponseTemplate<CustomerResponse>> getCustomerWithId(Long id) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
 
-        return customerOptional.map(customer -> {
-            //ganti dengan mapstruct mapper
+        if (!customerOptional.isPresent()) {
+            throw new CustomerNotFoundException(id);
+        } else {
             CustomerResponse customerResponse = new CustomerResponse();
-            customerResponse.setId(customer.getId());
-            customerResponse.setAddress(customer.getAddress());
-            customerResponse.setBalance(customer.getBalance());
-            customerResponse.setName(customer.getName());
-            customerResponse.setEmail(customer.getEmail());
-            return ResponseHelpers.createResponse(ResponseEnum.SUCCESS, customerResponse);
-        }).orElse(ResponseHelpers.createResponse(
-                //ganti dengan throw exception controllerAdvice
-                ResponseEnum.DATA_NOT_FOUND, null)
-        );
+
+            customerOptional.ifPresent(customer -> {
+                //ganti dengan mapstruct mapper
+                customerResponse.setId(customer.getId());
+                customerResponse.setAddress(customer.getAddress());
+                customerResponse.setBalance(customer.getBalance());
+                customerResponse.setName(customer.getName());
+                customerResponse.setEmail(customer.getEmail());
+            });
+            return responseHelpers.createResponse(ResponseEnum.SUCCESS, customerResponse);
+
+        }
+
     }
 
     public ResponseEntity<ResponseTemplate<CustomerResponse>> addCustomer(CustomerRequest customerRequest) {
@@ -76,6 +83,6 @@ public class CustomerService {
         customerResponse.setBalance(customer.getBalance());
         customerResponse.setName(customer.getName());
         customerResponse.setEmail(customer.getEmail());
-        return ResponseHelpers.createResponse(ResponseEnum.SUCCESS, customerResponse);
+        return responseHelpers.createResponse(ResponseEnum.SUCCESS, customerResponse);
     }
 }

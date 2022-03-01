@@ -1,0 +1,1 @@
+ALTER TABLE customer ADD company VARCHAR(255);

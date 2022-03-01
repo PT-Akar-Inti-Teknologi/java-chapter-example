@@ -20,12 +20,12 @@ public class DemoController {
     private final DemoService demoService;
 
     @GetMapping("/posts")
-    public ResponseEntity<ResponseTemplate<List<Post>>> getPosts(){
+    public ResponseEntity<ResponseTemplate<List<Post>>> getPosts() {
         return demoService.getPosts();
     }
 
     @GetMapping("/posts/{postId}")
-    public ResponseEntity<ResponseTemplate<Post>> getPostById(@PathVariable Long postId){
+    public ResponseEntity<ResponseTemplate<Post>> getPostById(@PathVariable Long postId) {
         return demoService.getPostById(postId);
     }
 }
