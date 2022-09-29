@@ -8,7 +8,7 @@
 		<version>2.6.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>org.ait.project.</groupId>
+	<groupId>org.ait.project</groupId>
 	<artifactId>aitboilerplate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AIT Boiler Plate</name>
@@ -68,6 +68,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jeasy</groupId>
+			<artifactId>easy-random-core</artifactId>
+			<version>4.0.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
