@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Post{
 
 	@JsonProperty("id")
-	private int id;
+	private Long id;
 
 	@JsonProperty("title")
 	private String title;
